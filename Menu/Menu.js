@@ -10,9 +10,7 @@ let menuItems = [
 ];
 
 /* 
-
   Step 1: Write a function that will create a menu component as seen below:
-
   <div class="menu">
     <ul>
       {each menu item as a list item}
@@ -30,6 +28,53 @@ let menuItems = [
 
   Step 5: return the menu component.
 
-  Step 6: add the menu component to the DOM.
-  
+  Step 6: add the menu component to the DOM.  
 */
+function menuMaker(arr) {
+
+    //create elements
+    const menu = document.createElement('div');
+    const unorderedlist = document.createElement('ul');    
+
+    arr.forEach(element => {
+        let listItem = document.createElement('li');
+        unorderedlist.appendChild(listItem);
+        listItem.textContent = element;
+        listItem.classList.add('listItem');
+    });
+       
+    ////add class
+    menu.classList.add('menu');
+    unorderedlist.classList.add("list");
+
+    //add event listener to button
+    const button = document.querySelector(".menu-button");
+    button.addEventListener("click", () => {
+        menu.classList.toggle("menu--open");
+        const menuAnimation = document.querySelectorAll(".listItem",);
+        TweenMax.to(menuAnimation, 2.5, { x: 70, ease: Bounce.easeOut });
+
+        if (document.querySelector(".menu--open")) {
+            menu.addEventListener('mouseout', (e) => {
+                TweenMax.from(menuAnimation, 2.5, { x: 70, ease: Bounce.easeIn });
+            });
+        }
+     });
+    //const menuClose = document.querySelector('div .menu')
+    
+
+    //menuClose.addEventListener("mouseleave", () => {
+    //    const menuAnimation = document.querySelectorAll(".listItem");
+    //    TweenMax.from(menuAnimation, 2.5, { x: 70, ease: Bounce.easeIn });
+    //});
+
+    //append
+    menu.appendChild(unorderedlist);
+
+   return menu;
+};
+
+const header = document.querySelector('.header');
+header.appendChild(menuMaker(menuItems));
+
+
